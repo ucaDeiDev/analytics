@@ -11,6 +11,7 @@ import { MeshPhongMaterial } from "three";
 import { useGetLiveSessionLocations } from "../../../../api/analytics/useGetLiveSessionLocations";
 import { useAtom } from "jotai";
 import { minutesAtom } from "../realtimeStore";
+import { createUrl } from "@/hooks/urlConstruct";
 
 const randomShader = memoize((e: string) => {
   return `rgba(120, 140, 110, ${Math.random() / 2 + 0.5})`;
@@ -30,7 +31,7 @@ export const World = ({ width }: { width: number }) => {
   const { data: countries = { features: [] } } = useQuery({
     queryKey: ["countries"],
     queryFn: async () => {
-      const res = await fetch("/countries.geojson");
+      const res = await fetch(createUrl("/countries.geojson"));
       return res.json();
     },
   });

@@ -1,3 +1,4 @@
+import { createUrl } from "@/hooks/urlConstruct";
 import { Compass } from "lucide-react";
 import Image from "next/image";
 
@@ -21,7 +22,7 @@ export function OperatingSystem({ os = "" }: { os?: string }) {
     <>
       {OS_TO_LOGO[os] ? (
         <Image
-          src={`/operating-systems/${OS_TO_LOGO[os]}`}
+          src={createUrl(`/operating-systems/${OS_TO_LOGO[os]}`)}
           alt={os || "Other"}
           className="w-4 h-4"
           width={16}
