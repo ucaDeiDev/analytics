@@ -1,7 +1,8 @@
+import { createUrl } from "@/hooks/urlConstruct";
 import { Compass } from "lucide-react";
 import Image from "next/image";
 
-const BROWSER_TO_LOGO= {
+const BROWSER_TO_LOGO = {
   Chrome: "Chrome.svg",
   "Mobile Chrome": "Chrome.svg",
   "Chrome WebView": "Chrome.svg",
@@ -41,7 +42,7 @@ const BROWSER_TO_LOGO= {
   Line: "Line.svg",
   "Oculus Browser": "Oculus.svg",
   Wolvic: "Wolvic.png",
-  "360": "360.png",
+  360: "360.png",
   PaleMoon: "PaleMoon.png",
   WeChat: "WeChat.svg",
   "Coc Coc": "CocCoc.svg",
@@ -54,7 +55,7 @@ export function Browser({ browser }) {
     <>
       {BROWSER_TO_LOGO[browser] ? (
         <Image
-          src={`/browsers/${BROWSER_TO_LOGO[browser]}`}
+          src={createUrl(`/browsers/${BROWSER_TO_LOGO[browser]}`)}
           alt={browser || "Other"}
           className="w-4 h-4"
           width={16}

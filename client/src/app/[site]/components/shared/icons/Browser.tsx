@@ -1,3 +1,4 @@
+import { createUrl } from "@/hooks/urlConstruct";
 import { Compass } from "lucide-react";
 import Image from "next/image";
 
@@ -56,7 +57,7 @@ export function Browser({ browser }: { browser: string }) {
     <>
       {BROWSER_TO_LOGO[browser] ? (
         <Image
-          src={`/browsers/${BROWSER_TO_LOGO[browser]}`}
+          src={createUrl(`/browsers/${BROWSER_TO_LOGO[browser]}`)}
           alt={browser || "Other"}
           className="w-4 h-4"
           width={16}

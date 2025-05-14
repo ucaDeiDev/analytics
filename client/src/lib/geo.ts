@@ -1,3 +1,4 @@
+import { createUrl } from "@/hooks/urlConstruct";
 import { useQuery } from "@tanstack/react-query";
 
 const countriesGeoUrl = "/countries.json";
@@ -40,14 +41,15 @@ export type Country = {
 export const useSubdivisions = () => {
   return useQuery<Subdivisions>({
     queryKey: ["subdivisions"],
-    queryFn: () => fetch(subdivisionsGeoUrl).then((res) => res.json()),
+    queryFn: () =>
+      fetch(createUrl(subdivisionsGeoUrl)).then((res) => res.json()),
   });
 };
 
 export const useCountries = () => {
   return useQuery<Country>({
     queryKey: ["countries"],
-    queryFn: () => fetch(countriesGeoUrl).then((res) => res.json()),
+    queryFn: () => fetch(createUrl(countriesGeoUrl)).then((res) => res.json()),
   });
 };
 
