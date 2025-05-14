@@ -5,3 +5,4 @@ export const BACKEND_URL =
 export const DISABLE_SIGNUP = process.env.NEXT_PUBLIC_DISABLE_SIGNUP === "true";
 export const IS_CLOUD = process.env.NEXT_PUBLIC_CLOUD === "true";
 export const IS_DEMO = process.env.NEXT_PUBLIC_DEMO === "true";
+export const BASE_PATH = process.env.NEXT_PUBLIC_BASE_PATH || '';

@@ -4,16 +4,26 @@ import type { NextRequest } from "next/server";
 export async function middleware(request: NextRequest) {
   const url = request.nextUrl.clone();
   const path = url.pathname;
+  const basePath = process.env.NEXT_PUBLIC_BASE_PATH || '';
+  
+  // Eliminar el BasePath de la ruta para procesamiento interno
+  const pathWithoutBasePath = basePath && path.startsWith(basePath) 
+    ? path.slice(basePath.length) 
+    : path;
 
   // Skip redirects for static files (favicon.ico, images, etc.)
-  if (path.includes(".")) {
+  if (pathWithoutBasePath.includes(".")) {
+    // Si es un archivo estático y no incluye el basePath, redirigir a la ruta con basePath
+    if (basePath && !path.startsWith(basePath)) {
+      return NextResponse.redirect(new URL(`${basePath}${path}`, request.url));
+    }
     return NextResponse.next();
   }
 
   // Handle GitHub OAuth callback redirect
-  if (path === "/auth/callback/github" || path === "/auth/callback/google") {
+  if (pathWithoutBasePath === "/auth/callback/github" || pathWithoutBasePath === "/auth/callback/google") {
     const redirectUrl = new URL(
-      `/api${path}${request.nextUrl.search}`,
+      `${basePath}/api${pathWithoutBasePath}${request.nextUrl.search}`,
       request.url
     );
     const response = NextResponse.redirect(redirectUrl);
@@ -24,7 +34,7 @@ export async function middleware(request: NextRequest) {
   // Check if we're on a site route without a specific page
   // This matches exactly /{siteId} with nothing after it
   const siteRoutePattern = /^\/([^/]+)$/;
-  const match = path.match(siteRoutePattern);
+  const match = pathWithoutBasePath.match(siteRoutePattern);
 
   if (match) {
     const siteId = match[1];
@@ -45,7 +55,7 @@ export async function middleware(request: NextRequest) {
 
     // Add cache control headers to make sure the redirect isn't cached
     const response = NextResponse.redirect(
-      new URL(`/${siteId}/main`, request.url)
+      new URL(`${basePath}/${siteId}/main`, request.url)
     );
     response.headers.set("Cache-Control", "no-store, max-age=0");
     return response;
